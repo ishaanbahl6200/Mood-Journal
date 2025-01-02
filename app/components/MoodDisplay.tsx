@@ -1,10 +1,29 @@
 import { useState } from "react";
-import { View, TouchableOpacity, Image, StyleSheet, Text, Modal, FlatList } from "react-native"
-import { moodList } from "../core/moodList";
+import { View, TouchableOpacity, Image, StyleSheet, Text, Modal, FlatList, ImageSourcePropType } from "react-native"
+import { moodList, Mood } from "../core/moodList";
+import { useSavedMoods } from "../contexts/SavedMoodsContext";
 
 export default function MoodDisplay(){
-  // Use state for emoji selector modal
-  const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+    // Use state for emoji selector modal
+    const [emojiModalVisible, setEmojiModalVisible] = useState(false);
+
+    //Use state for large display emoji and mood text
+    const [displayEmoji, setDisplayEmoji] = useState<ImageSourcePropType>(require("../../assets/images/emojis/neutralEmoji.png"));
+    const [displayMood, setDisplayMood] = useState<String>("Neutral");
+
+    //Use state for the most recent mood object 
+    const [recentMoodObj, setRecentMoodObj] = useState<Mood>(moodList[2]);
+  
+    // Update emoji and mood display
+    const updateMoodDisplay = (moodItem:Mood) =>{
+      setDisplayEmoji(moodItem.emoji);
+      setDisplayMood(moodItem.mood);
+      setRecentMoodObj(moodItem);
+    }
+
+    //Allow for saving emojis to the tracker
+    const { addToSavedMoodsList} = useSavedMoods();
+
   return(
     <View style={styles.container}>
       {/* //Large Display Emoji */}
@@ -12,13 +31,13 @@ export default function MoodDisplay(){
         style={styles.displayEmojiButton}
         onLongPress={()=>setEmojiModalVisible(true)}
       >
-        <Image source={require("../../assets/images/emojis/neutralEmoji.png")} style={styles.mainDisplayEmojiImage}></Image>
-      </TouchableOpacity>s
+        <Image source={displayEmoji} style={styles.mainDisplayEmojiImage}></Image>
+      </TouchableOpacity>
 
       {/* Current mood text */}
       <View style={styles.textContainer}>
       <Text style={styles.currentMoodText}>Current Mood: </Text>
-      <Text style={styles.moodVariableText}>Placeholder</Text>
+      <Text style={styles.moodVariableText}>{displayMood}</Text>
       </View>
         {/* Mood Emoji Selector Modal*/}
         <Modal
@@ -36,7 +55,7 @@ export default function MoodDisplay(){
                   data={moodList}
                   keyExtractor={moodItem => moodItem.mood}
                   renderItem={({item: moodItem}) => 
-                    <TouchableOpacity onPress={()=>console.log(moodItem.mood)}>
+                    <TouchableOpacity onPress={()=>updateMoodDisplay(moodItem)}>
                       <Image 
                         style={styles.emojiSelectionImages}
                         source={moodItem.emoji}/>
@@ -52,13 +71,22 @@ export default function MoodDisplay(){
             </View>
           </View>
         </Modal>
+        {/* Add To Tracker Button */}
+         <View style={styles.containerForButton}>
+              <TouchableOpacity
+                onPress={()=>addToSavedMoodsList(recentMoodObj, new Date())} 
+                style={styles.addToTrackerButton}>
+                  <Text style={styles.addToTrackerText}>Add To Tracker!</Text>
+              </TouchableOpacity>
+            </View>
     </View>
   )
 }
 
+
 const styles = StyleSheet.create({
   container:{
-    flex: 1,
+    // flex: 1,
     backgroundColor: "white",
     alignItems: "center",
   },
@@ -111,5 +139,18 @@ const styles = StyleSheet.create({
     margin:5,
     width:35,
     height:35,
+  },containerForButton:{
+    justifyContent: "center",
+    alignItems: "center", 
+  },
+  addToTrackerButton:{
+    backgroundColor:"#1098FF",
+    padding:20,
+    paddingHorizontal:80,
+    margin:20,
+  },
+  addToTrackerText:{
+    fontSize:16,
+    color: "white",
   }
 })

@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "../contexts/NavigationContext";
+import Tracker from "../views/Tracker";
 
 export default function DateHeader(){
   //Get Current date
@@ -8,14 +10,20 @@ export default function DateHeader(){
     year: "numeric",
     month: "short",
     day: "numeric"
-  })
+  });
 
   //Formatted Date
-  const currentFormattedDate = dateFormatter.format(currentDate)
+  const currentFormattedDate = dateFormatter.format(currentDate);
+
+  //Navigate function will allow for a new current view to be set
+  const {navigate} = useNavigation();
 
   return(
     <View style={styles.container}>
-      <Text style={styles.text}>{currentFormattedDate}</Text>
+      {/* Swap to tracker view */}
+      <TouchableOpacity onPress={()=>navigate(<Tracker />)}>
+        <Text style={styles.text}>{currentFormattedDate}</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -23,11 +31,11 @@ export default function DateHeader(){
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1098FF",
-    alignItems: 'center',
+    alignItems: "center",
   },
   text:{
     color: "white",
     fontSize: 20,
     padding: 20,
   }
-})
+});

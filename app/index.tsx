@@ -1,10 +1,17 @@
-import { Text, View, StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
+import {View, StyleSheet } from 'react-native';
 import Home from './views/Home';
+import Tracker from './views/Tracker';
+import { NavigationProvider } from './contexts/NavigationContext';
+import App from './views/App';
+
 
 export default function Index() {
   return (
     <View style={ styles.container }>
-      <Home />
+      <NavigationProvider>
+        <App />
+     </NavigationProvider>
     </View>
   );
 }

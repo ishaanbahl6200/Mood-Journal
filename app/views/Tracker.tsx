@@ -45,7 +45,7 @@ export default function Tracker(){
               {/* Format will folow: Saturday, Dec.31st*/}
               <Text style={styles.savedDateText}>
                 {dateFormatter.format(mood.time)} @  
-                {" " + mood.time.getHours() % 12 || 12}:{mood.time.getMinutes().toString().padStart(2, "0") + " "}
+                {" " + (mood.time.getHours() % 12 || 12)}:{mood.time.getMinutes().toString().padStart(2, "0") + " "}
                 {mood.time.getHours() >= 12 ? "PM" : "AM"}</Text>
             </View>
             {/* Container for the mood text */}

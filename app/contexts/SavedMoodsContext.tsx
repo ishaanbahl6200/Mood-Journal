@@ -22,7 +22,7 @@ const SavedMoodsContext = createContext<SavedMoodsContextType | undefined>(undef
 
 //savedMoodsProvider
 //React.FC is the type of every react element
-export const SavedMoodsProvider: React.FC<{ children:ReactNode }> = ({children}) =>{
+const SavedMoodsProvider: React.FC<{ children:ReactNode }> = ({children}) =>{
 
   //useState for the mood saved list
   const [moodsSavedList, setMoodsSavedList] = useState<savedMood[]>([]);
@@ -54,5 +54,8 @@ export const useSavedMoods = (): SavedMoodsContextType => {
   }
   return context;
 };
+
+//Default export as this is the main component of the file
+export default SavedMoodsProvider;
 
 

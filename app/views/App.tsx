@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigation } from "../contexts/NavigationContext";
 import { Text } from "react-native";
-import { SavedMoodsProvider } from "../contexts/SavedMoodsContext";
+import SavedMoodsProvider from "../contexts/SavedMoodsContext";
 
 export default function App (){
   const { currentView } = useNavigation();

@@ -43,12 +43,15 @@ export default function Tracker(){
             {/* Container for the date */}
             <View>
               {/* Format will folow: Saturday, Dec.31st*/}
-              <Text style={styles.savedDateText}>{dateFormatter.format(mood.time)} @ {mood.time.getHours()}:{mood.time.getMinutes()}</Text>
+              <Text style={styles.savedDateText}>
+                {dateFormatter.format(mood.time)} @  
+                {" " + mood.time.getHours() % 12 || 12}:{mood.time.getMinutes().toString().padStart(2, "0") + " "}
+                {mood.time.getHours() >= 12 ? "PM" : "AM"}</Text>
             </View>
             {/* Container for the mood text */}
             <View style={styles.moodTextContainer}>
-              <Text>Mood: </Text>
-              <Text>{mood.moodSaved.mood}</Text>
+              <Text style={styles.moodWordText}>Mood: </Text>
+              <Text style={styles.savedMoodsVariableText}>{mood.moodSaved.mood}</Text>
             </View>
           </View>
           {/* Section for the image */}
@@ -97,6 +100,12 @@ const styles = StyleSheet.create({
   },
   moodTextContainer:{
     flexDirection:"row",
+  },
+  moodWordText:{
+    fontWeight: "bold",
+  },
+  savedMoodsVariableText:{
+    color:"rgb(74, 74, 74)",
   },
   savedEmojisContainer:{
     padding:10,

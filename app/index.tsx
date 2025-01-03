@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {View, StyleSheet } from 'react-native';
 import Home from './views/Home';
 import Tracker from './views/Tracker';
-import { NavigationProvider } from './contexts/NavigationContext';
+import NavigationProvider from './contexts/NavigationContext';
 import App from './views/App';
 
 

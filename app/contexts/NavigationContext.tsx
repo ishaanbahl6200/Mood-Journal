@@ -1,7 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import Home from "../views/Home";
-import Tracker from "../views/Tracker";
-import { navigate } from "expo-router/build/global-state/routing";
 
 // Define the context type
 interface NavigationContextType {
@@ -13,7 +11,7 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 // NavigationProvider component
-export const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const NavigationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // State for the current view being displayed
   const [currentView, setCurrentView] = useState<React.ReactNode>(<Home />);
 
@@ -37,4 +35,7 @@ export const useNavigation = (): NavigationContextType => {
   }
   return context;
 };
+
+//Default export as this is the main component of the file
+export default NavigationProvider;
 
